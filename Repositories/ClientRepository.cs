@@ -31,7 +31,10 @@ namespace Repositories
 		}
 		public async Task<Client> Read(int id)
 		{
-			return await _context.Clients.FirstOrDefaultAsync(c => c.Id == id);
+			Client client = await _context.Clients.FirstOrDefaultAsync(c => c.Id == id);
+			
+			client.Articles = await _context.Articles.Where(c =>c.ClientId == id).ToListAsync();
+			return client;
 		}
 		public async Task<bool> Update(Client client)
 		{

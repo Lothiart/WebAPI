@@ -22,7 +22,8 @@ builder.Services.AddDbContext<Context>(o =>
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientBusiness, ClientBusiness>();
-
+builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+builder.Services.AddScoped<IArticleBusiness, ArticleBusiness>();
 
 var app = builder.Build();
 
