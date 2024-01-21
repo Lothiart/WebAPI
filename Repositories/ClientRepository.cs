@@ -16,6 +16,20 @@ namespace Repositories
 		{
 			return await _context.Clients.ToListAsync();
 		}
+		public async Task<List<ClientDTO>> GetClientsDTO()
+		{
+			List<ClientDTO> clientsdto = new List<ClientDTO>();
+			foreach (var client in await _context.Clients.ToListAsync()) { 
+				ClientDTO clientdto = new ClientDTO() { Id = client.Id,Description = client.Description};
+				clientsdto.Add(clientdto);
+
+			}
+
+
+			return clientsdto;
+
+
+		}
 		public async Task<bool> Create(Client client)
 		{
 			try
@@ -31,10 +45,14 @@ namespace Repositories
 		}
 		public async Task<Client> Read(int id)
 		{
-			Client client = await _context.Clients.FirstOrDefaultAsync(c => c.Id == id);
+			//Client client = await _context.Clients.FirstOrDefaultAsync(c => c.Id == id);
+
+			//client.Articles = await _context.Articles.Where(c => c.ClientId == id).ToListAsync();
+			//return client;
+
 			
-			client.Articles = await _context.Articles.Where(c =>c.ClientId == id).ToListAsync();
-			return client;
+			return await _context.Clients.Include(c => c.Articles).FirstOrDefaultAsync(a => a.Id == id);
+			
 		}
 		public async Task<bool> Update(Client client)
 		{

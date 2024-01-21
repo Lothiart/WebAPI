@@ -33,7 +33,12 @@ namespace WebAPI.Controllers
             this._clientBusiness = clientBusiness;
             this._articleBusiness = articleBusiness;
         }
-
+        /// <summary>
+        ///  Fonction qui créer un client
+        /// </summary>
+		/// <param name="name">Nom du client</param>
+		/// <param name="description">description</param>
+		
         [HttpPost]
 		public async Task<ActionResult> Create(string name, string description)
 		{
@@ -47,8 +52,11 @@ namespace WebAPI.Controllers
 				return StatusCode(402, "client non créé");
 			}
 		}
-
-		[HttpGet]
+        /// <summary>
+        ///  Fonction qui supprime un client
+        /// </summary>
+        /// <param name="id">Id du Client</param>
+        [HttpGet]
 		public async Task<ActionResult> Delete(int id)
 		{
 			if (await _clientBusiness.Delete(id))
@@ -60,8 +68,11 @@ namespace WebAPI.Controllers
 				return StatusCode(402, "client non supprimé");
 			}
 		}
-
-		[HttpGet]
+        /// <summary>
+        ///  Fonction qui récupère un cient par so Id
+        /// </summary>
+        /// <param name="id">id du client</param>
+        [HttpGet]
 		public async Task<ActionResult> GetById(int id)
 		{
 			Client client = await _clientBusiness.Read(id);
@@ -74,8 +85,10 @@ namespace WebAPI.Controllers
 				return StatusCode(402, "client n'existe pas");
 			}
 		}
-
-		[HttpGet]
+        /// <summary>
+        ///  Fonction qui récupère tout les clients
+        /// </summary>
+        [HttpGet]
 		public async Task<ActionResult> GetAll()
 		{
 			List<Client> clients = await _clientBusiness.GetClients();
@@ -88,8 +101,28 @@ namespace WebAPI.Controllers
 				return StatusCode(402, "pas de clients");
 			}
 		}
-
-		[HttpGet]
+        /// <summary>
+        ///  Fonction qui récupère tout les clients en DTO
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult> GetAllDTO()
+        {
+            Task<List<ClientDTO>> clients =  _clientBusiness.GetClientsDTO();
+            if (clients != null)
+            {
+                return Ok(clients);
+            }
+            
+            else
+            {
+                return StatusCode(402, "pas de clients");
+            }
+        }
+        /// <summary>
+        ///  Fonction qui cherche un client
+        /// </summary>
+        /// <param name="str">Recherche</param>
+        [HttpGet]
 		public async Task<ActionResult> Search(string str)
 		{
 			List<Client> clients = await _clientBusiness.Search(str);
@@ -102,7 +135,11 @@ namespace WebAPI.Controllers
 				return StatusCode(402, "pas de clients");
 			}
 		}
-
+        /// <summary>
+        ///  Fonction qui met à jour un client
+        /// </summary>
+		/// <param name="client">Id du client à modifier</param>
+		
 		[HttpPut]
 		public async Task<ActionResult> Update(Client client)
 		{
@@ -127,7 +164,11 @@ namespace WebAPI.Controllers
 				return StatusCode(402, "pas de client" + client.Id);
 			}
 			}
-
+        /// <summary>
+        ///  Fonction qui créer un Article
+        /// </summary>
+		/// <param name="contenu">contenu de l'article</param>
+		/// <param name="id">Id du client</param>
         [HttpPost]
         public async Task<ActionResult> CreateArticle(string contenu, int id)
         {
@@ -153,7 +194,10 @@ namespace WebAPI.Controllers
 			}
                 return StatusCode(402, "création impossible le client n'exsite pas");
             }
-
+        /// <summary>
+        ///  Fonction qui permet de supprimer un client
+        /// </summary>
+		/// <param name="id">Id du client</param>
         [HttpGet]
         public async Task<ActionResult> DeleteArticle(int id)
         {
@@ -166,7 +210,10 @@ namespace WebAPI.Controllers
                 return StatusCode(402, "Article non supprimé");
             }
         }
-
+        /// <summary>
+        ///  Fonction qui permet de récuperer un article par son id
+        /// </summary>
+		/// <param name="id">id de l'article</param>
         [HttpGet]
         public async Task<ActionResult> GetByIdArticle(int id)
         {
@@ -180,7 +227,9 @@ namespace WebAPI.Controllers
                 return StatusCode(402, "l'article n'existe pas");
             }
         }
-
+        /// <summary>
+        ///  Fonction qui rapporte tous les articles
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult> GetAllArticles()
         {
@@ -194,7 +243,10 @@ namespace WebAPI.Controllers
                 return StatusCode(402, "pas d'articles");
             }
         }
-
+        /// <summary>
+        ///  Fonction qui recherche un article
+        /// </summary>
+		/// <param name="str">Recherche</param>
         [HttpGet]
         public async Task<ActionResult> SearchArticle(string str)
         {
@@ -208,7 +260,10 @@ namespace WebAPI.Controllers
                 return StatusCode(402, "pas de clients");
             }
         }
-
+        /// <summary>
+        ///  Fonction qui met à jour un article
+        /// </summary>
+		/// <param name="article">Id de l'arcticle</param>
         [HttpPut]
         public async Task<ActionResult> UpdateArticle(Article article)
         {

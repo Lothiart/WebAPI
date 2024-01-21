@@ -16,7 +16,11 @@ namespace Business
 		{
 			return await _clientRepository.GetClients();
 		}
-		public async Task<bool> Create(Client client)
+        public async Task<List<ClientDTO>> GetClientsDTO()
+        {
+            return await _clientRepository.GetClientsDTO();
+        }
+        public async Task<bool> Create(Client client)
 		{
 			return await _clientRepository.Create(client);
 		}
